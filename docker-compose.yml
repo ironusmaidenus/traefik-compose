@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  traefik:
+    image: traefik # The official Traefik docker image
+    ports:
+      - "80:80"     # The HTTP port
+      - "8080:8080" # The Web UI (enabled by --api)
+    networks:
+      - front
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      - /opt/traefik/acme.json:/acme.json
+      - $PWD/traefik.toml:/traefik.toml
+
+networks:
+  front:
+    external: true
